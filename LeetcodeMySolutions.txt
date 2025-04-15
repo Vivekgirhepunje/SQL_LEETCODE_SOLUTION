@@ -431,3 +431,12 @@ select coalesce((select distinct salary
 from employee
 order by salary desc
 limit 1 offset 1),null) as SecondHighestSalary;
+
+LeetCode 1484. Group Sold Products By The Date
+-----------------------------------------------
+# Write your MySQL query statement
+SELECT sell_date,count(distinct product) as num_sold,
+group_concat(distinct product ORDER BY product separator ',') as products
+FROM Activities
+group by sell_date
+
