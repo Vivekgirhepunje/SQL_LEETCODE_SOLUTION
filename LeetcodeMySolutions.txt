@@ -1,0 +1,433 @@
+LeetCode 1757. Recyclable and Low Fat Products
+---------------------------------------------
+# Write your MySQL query statement below
+select product_id
+from products
+where low_fats="Y" and recyclable="Y";
+
+
+LeetCode 584. Find Customer Referee
+---------------------------------------------
+select name
+from customer
+where referee_id!=2 or referee_id is null;
+
+
+LeetCode 595. Big Countries
+---------------------------------------------
+# Write your MySQL query statement below
+select name,population,area
+from world
+where area>=3000000 or population>=25000000;
+
+
+LeetCode 1148. Article Views I
+---------------------------------------------
+# Write your MySQL query statement below
+SELECT DISTINCT author_id AS id FROM Views
+WHERE author_id = viewer_id
+ORDER BY author_id ASC
+
+
+LeetCode 1683. Invalid Tweets
+---------------------------------------------
+# Write your MySQL query statement below
+select tweet_id
+from Tweets 
+where length(content)>15;
+
+
+LeetCode 1378. Replace Employee ID With The Unique Identifier
+---------------------------------------------
+# Write your MySQL query statement below
+select eu.unique_id as unique_id , e.name
+from employees as e
+left join employeeuni as eu
+on e.id=eu.id;
+
+
+LeetCode 1068. Product Sales Analysis I
+---------------------------------------------
+# Write your MySQL query statement below
+select p.product_name,s.year,s.price
+from sales as s 
+left join product as p
+on s.product_id=p.product_id;
+
+
+LeetCode 1581. Customer Who Visited But Did Not Make Any Transactions
+---------------------------------------------
+# Write your MySQL query statement below
+select  v.customer_id,count(v.customer_id) as count_no_trans
+from visits as v
+left join  transactions as t
+on v.visit_id=t.visit_id
+where t.visit_id is null
+group by v.customer_id
+order by count(v.customer_id);
+
+
+
+LeetCode 197. Rising Temperature
+---------------------------------------------
+# Write your MySQL query statement below
+select w1.id
+from Weather w1
+join Weather w2
+where datediff(w1.recordDate,w2.recordDate)=1 && w1.temperature> w2.temperature;
+
+
+LeetCode 1661. Average Time of Process per Machine
+---------------------------------------------
+select c.machine_id,round(avg(c.reqtime),3) as processing_time from
+(select a.machine_id,abs(b.timestamp-a.timestamp) as reqtime
+from activity a 
+join activity b
+on a.machine_id=b.machine_id and a.process_id=b.process_id 
+and a.activity_type="start" and b.activity_type="end") as c
+group by c.machine_id ;
+
+
+LeetCode 577. Employee Bonus
+---------------------------------------------
+# Write your MySQL query statement below
+
+select e.name, b.bonus
+from employee e 
+left join bonus  b
+on e.empid=b.empid
+where b.bonus<1000 or b.bonus is null;
+
+
+LeetCode 1280. Students and Examinations
+---------------------------------------------
+select s.student_id,s.student_name,sub.subject_name,count(e.subject_name) as attended_exams
+from (students s
+join subjects sub)
+left join examinations e
+on sub.subject_name=e.subject_name and s.student_id=e.student_id
+group by s.student_id,s.student_name,sub.subject_name
+order by s.student_id,sub.subject_name;
+
+
+
+LeetCode 570. Managers with at Least 5 Direct Reports
+---------------------------------------------
+# Write your MySQL query statement below
+select a.name 
+from employee a
+join employee b
+on a.id=b.managerid
+group by a.id
+having count(*)>=5;
+
+
+LeetCode 1934. Confirmation Rate
+---------------------------------------------
+# Write your MySQL query statement below
+select s.user_id,round(sum(case when c.action="confirmed" then 1 else 0 end)/count(c.action),2) as confirmation_rate
+from signups s 
+left join confirmations c
+on s.user_id=c.user_id
+group by s.user_id
+
+
+LeetCode 620. Not Boring Movies
+---------------------------------------------
+# Write your MySQL query statement below
+select c.id,c.movie,c.description,c.rating
+from Cinema c 
+where c.id%2!=0 and c.description!="boring"
+order by c.rating desc;
+
+
+LeetCode 1251. Average Selling Price
+---------------------------------------------
+# Write your MySQL query statement below
+select p.product_id,ifnull(round(sum(p.price*u.units)/sum(u.units),2),0) as average_price
+from prices p
+left join unitssold u
+on p.product_id=u.product_id and u.purchase_date between p.start_date and p.end_date
+group by p.product_id;
+
+
+LeetCode 1075. Project Employees I
+---------------------------------------------
+# Write your MySQL query statement below
+select p.project_id,round(avg(e.experience_years),2)as average_years
+from project p 
+join employee e 
+on p.employee_id=e.employee_id
+group by p.project_id;
+
+
+LeetCode 1633. Percentage of Users Attended a Contest
+---------------------------------------------
+# Write your MySQL query statement below
+select r.contest_id,round(count(distinct r.user_id)/total_users *100,2)as percentage
+from register r 
+join (select count(user_id) as total_users from users) u 
+group by r.contest_id 
+order by percentage desc, r.contest_id asc
+
+
+
+LeetCode 1211. Queries Quality and Percentage
+---------------------------------------------
+# Write your MySQL query statement below
+select a.query_name,round(avg(a.rating/a.position),2) as quality,round(avg(a.rating<3)*100,2) as poor_query_percentage
+from queries a
+group by a.query_name
+
+
+
+LeetCode 1193. Monthly Transaction I
+---------------------------------------------
+# Write your MySQL query statement below
+select a.query_name,round(avg(a.rating/a.position),2) as quality,round(avg(a.rating<3)*100,2) as poor_query_percentage
+from queries a
+group by a.query_name
+
+
+
+LeetCode 1174. Immediate Food Delivery II
+---------------------------------------------
+# Write your MySQL query statement below
+select round(sum(case when d1.order_date=d2.customer_pref_delivery_date then 1 else 0 end)/count(d1.order_date)*100,2) as immediate_percentage
+from (select customer_id,min(order_date) as order_date from delivery group by customer_id) as d1
+left join delivery d2
+on d1.customer_id=d2.customer_id and d2.order_date=d1.order_date
+-- group by d1.customer_id
+
+LeetCode 550. Game Play Analysis IV
+---------------------------------------------
+# Write your MySQL query statement below
+select round(sum(case when datediff(a.event_date,first_date)=1 then 1 else 0 end)/count( distinct t1.player_id),2) as fraction
+from (select player_id,device_id,min(event_date) as first_date 
+from activity group by player_id) t1
+left join activity a 
+on t1.player_id=a.player_id and t1.first_date!=a.event_date;
+
+
+
+LeetCode 2356. Number of Unique Subjects Taught by Each Teacher
+---------------------------------------------
+# Write your MySQL query statement below
+SELECT t.teacher_id,count(DISTINCT t.subject_id) as cnt
+FROM teacher t 
+GROUP BY t.teacher_id;
+
+
+LeetCode 1141. User Activity for the Past 30 Days I
+---------------------------------------------
+# Write your MySQL query statement below
+select a.activity_date as day,count(distinct a.user_id) as active_users
+from activity a
+where datediff('2019-07-27',a.activity_date) between 0 and 29
+group by a.activity_date
+
+
+LeetCode 1070. Product Sales Analysis III
+---------------------------------------------
+select nd.product_id,nd.year as first_year,nd.quantity,nd.price from
+(select s.product_id, s.year, s.quantity, s.price from Sales s
+join 
+(select product_id ,min(year) as yr from sales 
+group by product_id) d
+on s.product_id=d.product_id and s.year=d.yr) nd
+join Product p
+on p.product_id=nd.product_id;
+
+
+Leetcode 596. Classes More Than 5 Students
+---------------------------------------------
+select class
+from courses
+group by class
+having count(student)>=5;
+
+LeetCode 1729 Find Followers Count
+---------------------------------------------
+# Write your MySQL query statement below
+select user_id, count(user_id) as followers_count
+from followers 
+group by user_id
+order by user_id
+
+Leetcode 619. Biggest Single Number
+# Write your MySQL query statement below
+select max(num) as num from
+(select num
+from mynumbers
+group by num
+having count(num)=1)
+ temp 
+
+
+LeetCode 1045. Customers Who Bought All Products
+---------------------------------------------
+select temp.customer_id from
+(select c.customer_id,count(distinct c.product_key) as cnt
+from customer c
+group by c.customer_id) temp
+where temp.cnt=(select count(*) from product)
+
+
+LeetCode 1731. The Number of Employees Which Report to Each Employee
+---------------------------------------------
+# Write your MySQL query statement below
+select temp.employee_id,temp.name,count(*)as reports_count,round(avg(temp.age)) as average_age from
+(select e1.employee_id,e1.name,e2.age
+from employees e1
+join employees e2
+on e1.employee_id=e2.reports_to)temp
+group by temp.employee_id,temp.name
+order by temp.employee_id;
+
+
+LeetCode 1789. Primary Department for Each Employee
+---------------------------------------------
+select employee_id ,department_id 
+from employee
+where primary_flag='Y'
+
+union
+
+select employee_id,department_id
+from employee
+group by employee_id 
+having count(department_id)=1;
+
+
+LeetCode 610. Triangle judgment
+---------------------------------------------
+# Write your MySQL query statement below
+select x,y,z,(case when (x+y>z && x+z>y && y+z>x) then 'Yes' else 'No' end) as triangle
+from triangle 
+
+
+LeetCode 180. Consecutive Numbers
+---------------------------------------------
+select distinct num as ConsecutiveNums from (select id,num,lead(num)  over (order by id) as nxt1,lead(num,2) over (order by id) as nxt2 from logs) temp where num=nxt1 && nxt1=nxt2; 
+
+
+LeetCode 1164. Product Price at a Given Date
+---------------------------------------------
+with sub as(
+    select *, dense_rank() over (partition by product_id order by change_date desc) as no
+    from products 
+    where change_date<='2019-08-16'
+),
+ids as (
+    select distinct product_id from products
+)
+-- select * from sub;??
+select ids.product_id,if(sub.product_id,sub.new_price,10) as price
+from ids 
+left join sub 
+on ids.product_id= sub.product_id and no=1;
+
+
+LeetCode 1204. Last Person to Fit in the Bus
+---------------------------------------------
+with sub as (
+    select person_name,sum(weight) over (order by turn ) as total_weight from queue
+)
+select distinct first_value(person_name) over (order by total_weight desc) person_name from sub 
+where total_weight<=1000;
+
+
+LeetCode 1907. Count Salary Categories
+---------------------------------------------
+with filter as ( select account_id,income,
+(case 
+when income <20000 then 'Low Salary' 
+    when income between 20000 and 50000 then 'Average Salary'
+    else 'High Salary' end 
+    ) as Category
+    from Accounts
+),
+categories as(
+    select 'High Salary' as category
+    union
+    select 'Low Salary'
+    union
+    select 'Average Salary'
+)
+
+select  cg.category,count(f.account_id) as accounts_count from categories cg
+left join filter f
+on cg.category = f.category
+group by cg.category
+
+
+LeetCode 1978. Employees Whose Manager Left the Company
+---------------------------------------------
+# Write your MySQL query statement below
+select distinct s1.employee_id
+from employees s1
+left join employees s2
+on s1.manager_id=s2.employee_id
+where s2.employee_id is null and s1.salary<30000 and s1.manager_id is not null
+order by s1.employee_id
+
+
+LeetCode 626. Exchange Seats
+---------------------------------------------
+select (case when id=(select count(id) from seat) && id%2=1 then id
+when mod(id,2) then id+1 else id-1 end) as id , student from seat
+order by id asc; 
+
+
+LeetCode 1341. Movie Rating
+---------------------------------------------
+with sub as(
+    select m.movie_id,m.title,u.user_id,u.name,mr.rating,mr.created_at
+    from movierating as mr 
+    join Movies m
+    join Users u
+    on mr.movie_id=m.movie_id and mr.user_id=u.user_id 
+    order by m.mo31q432vie_id,m.title asc
+),
+ mostrater as (select name
+from sub 
+group by name
+order by count(*) desc,name asc
+limit 1
+),
+ highestrated as(
+    select title 
+    from sub 
+    where month(created_at)=2 and year(created_at)=2020
+    group by title
+    order by avg(rating) desc,title asc
+    limit 1
+)
+select name as results from mostrater 
+union all 
+select title from highestrated;
+-- select * from sub;
+
+
+LeetCode 185. Department Top Three Salaries
+---------------------------------------------
+# Write your MySQL query statement below
+with info as(
+    select department.name as Department,employee.name as Employee,salary,department.id 
+    from department 
+    join employee
+    on department.id=employee.departmentId
+)
+,dinfo as(select Department,Employee,salary, dense_rank() over (partition by department order by salary desc) as NO
+from info )
+select Department,Employee,salary
+from dinfo
+where NO<=3
+
+
+LeetCode 176. Second Highest Salary
+---------------------------------------------
+select coalesce((select distinct salary
+from employee
+order by salary desc
+limit 1 offset 1),null) as SecondHighestSalary;
