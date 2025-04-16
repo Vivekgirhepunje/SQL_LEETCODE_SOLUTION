@@ -472,3 +472,19 @@ ON e.departmentId=d.id)
 -- select * from temp;
 SELECT Department,Employee,Salary FROM temp
 WHERE num=1
+
+1158. Market Analysis I
+-------------------------------
+select users.user_id as buyer_id,users.join_date,count(order_date) as orders_in_2019
+from 
+users
+Left join 
+(select buyer_id,order_date from orders 
+join items
+on orders.item_id=items.item_id
+where Year(order_date)=2019) as temp
+on
+users.user_id=temp.buyer_id
+group by user_id
+
+Hello world my name is vivek
