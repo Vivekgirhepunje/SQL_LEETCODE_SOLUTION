@@ -1,2 +1,15 @@
-Leetcode 252
-Hello i have Added solution to proble
+262. Trips and Users
+--------------------------------------------
+
+with temp as(select request_at,(case when status="completed" then 1 else 0 end) as cnt
+from trips t
+join users c
+on t.client_id= c.users_id 
+join users d
+on t.driver_id = d.users_id
+where d.banned ='No' and c.banned='No' and request_at between "2013-10-01" and "2013-10-03"
+order by request_at)
+
+select request_at as Day, round((count(*)-sum(cnt))/count(*),2) as "Cancellation Rate"
+from temp
+group by request_at
