@@ -1,0 +1,10 @@
+LeetCode 1731. The Number of Employees Which Report to Each Employee
+---------------------------------------------
+# Write your MySQL query statement below
+select temp.employee_id,temp.name,count(*)as reports_count,round(avg(temp.age)) as average_age from
+(select e1.employee_id,e1.name,e2.age
+from employees e1
+join employees e2
+on e1.employee_id=e2.reports_to)temp
+group by temp.employee_id,temp.name
+order by temp.employee_id;

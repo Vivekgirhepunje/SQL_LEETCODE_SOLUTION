@@ -1,0 +1,9 @@
+LeetCode 1978. Employees Whose Manager Left the Company
+---------------------------------------------
+# Write your MySQL query statement below
+select distinct s1.employee_id
+from employees s1
+left join employees s2
+on s1.manager_id=s2.employee_id
+where s2.employee_id is null and s1.salary<30000 and s1.manager_id is not null
+order by s1.employee_id

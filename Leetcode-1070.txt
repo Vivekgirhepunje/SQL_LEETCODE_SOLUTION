@@ -1,0 +1,10 @@
+LeetCode 1070. Product Sales Analysis III
+---------------------------------------------
+select nd.product_id,nd.year as first_year,nd.quantity,nd.price from
+(select s.product_id, s.year, s.quantity, s.price from Sales s
+join 
+(select product_id ,min(year) as yr from sales 
+group by product_id) d
+on s.product_id=d.product_id and s.year=d.yr) nd
+join Product p
+on p.product_id=nd.product_id;

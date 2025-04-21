@@ -185,14 +185,7 @@ left join delivery d2
 on d1.customer_id=d2.customer_id and d2.order_date=d1.order_date
 -- group by d1.customer_id
 
-LeetCode 550. Game Play Analysis IV
----------------------------------------------
-# Write your MySQL query statement below
-select round(sum(case when datediff(a.event_date,first_date)=1 then 1 else 0 end)/count( distinct t1.player_id),2) as fraction
-from (select player_id,device_id,min(event_date) as first_date 
-from activity group by player_id) t1
-left join activity a 
-on t1.player_id=a.player_id and t1.first_date!=a.event_date;
+
 
 
 
@@ -213,16 +206,7 @@ where datediff('2019-07-27',a.activity_date) between 0 and 29
 group by a.activity_date
 
 
-LeetCode 1070. Product Sales Analysis III
----------------------------------------------
-select nd.product_id,nd.year as first_year,nd.quantity,nd.price from
-(select s.product_id, s.year, s.quantity, s.price from Sales s
-join 
-(select product_id ,min(year) as yr from sales 
-group by product_id) d
-on s.product_id=d.product_id and s.year=d.yr) nd
-join Product p
-on p.product_id=nd.product_id;
+
 
 
 Leetcode 596. Classes More Than 5 Students
@@ -240,35 +224,11 @@ from followers
 group by user_id
 order by user_id
 
-Leetcode 619. Biggest Single Number
-# Write your MySQL query statement below
-select max(num) as num from
-(select num
-from mynumbers
-group by num
-having count(num)=1)
- temp 
 
 
-LeetCode 1045. Customers Who Bought All Products
----------------------------------------------
-select temp.customer_id from
-(select c.customer_id,count(distinct c.product_key) as cnt
-from customer c
-group by c.customer_id) temp
-where temp.cnt=(select count(*) from product)
 
 
-LeetCode 1731. The Number of Employees Which Report to Each Employee
----------------------------------------------
-# Write your MySQL query statement below
-select temp.employee_id,temp.name,count(*)as reports_count,round(avg(temp.age)) as average_age from
-(select e1.employee_id,e1.name,e2.age
-from employees e1
-join employees e2
-on e1.employee_id=e2.reports_to)temp
-group by temp.employee_id,temp.name
-order by temp.employee_id;
+
 
 
 LeetCode 1789. Primary Department for Each Employee
@@ -297,72 +257,17 @@ LeetCode 180. Consecutive Numbers
 select distinct num as ConsecutiveNums from (select id,num,lead(num)  over (order by id) as nxt1,lead(num,2) over (order by id) as nxt2 from logs) temp where num=nxt1 && nxt1=nxt2; 
 
 
-LeetCode 1164. Product Price at a Given Date
----------------------------------------------
-with sub as(
-    select *, dense_rank() over (partition by product_id order by change_date desc) as no
-    from products 
-    where change_date<='2019-08-16'
-),
-ids as (
-    select distinct product_id from products
-)
--- select * from sub;??
-select ids.product_id,if(sub.product_id,sub.new_price,10) as price
-from ids 
-left join sub 
-on ids.product_id= sub.product_id and no=1;
 
 
-LeetCode 1204. Last Person to Fit in the Bus
----------------------------------------------
-with sub as (
-    select person_name,sum(weight) over (order by turn ) as total_weight from queue
-)
-select distinct first_value(person_name) over (order by total_weight desc) person_name from sub 
-where total_weight<=1000;
 
 
-LeetCode 1907. Count Salary Categories
----------------------------------------------
-with filter as ( select account_id,income,
-(case 
-when income <20000 then 'Low Salary' 
-    when income between 20000 and 50000 then 'Average Salary'
-    else 'High Salary' end 
-    ) as Category
-    from Accounts
-),
-categories as(
-    select 'High Salary' as category
-    union
-    select 'Low Salary'
-    union
-    select 'Average Salary'
-)
-
-select  cg.category,count(f.account_id) as accounts_count from categories cg
-left join filter f
-on cg.category = f.category
-group by cg.category
 
 
-LeetCode 1978. Employees Whose Manager Left the Company
----------------------------------------------
-# Write your MySQL query statement below
-select distinct s1.employee_id
-from employees s1
-left join employees s2
-on s1.manager_id=s2.employee_id
-where s2.employee_id is null and s1.salary<30000 and s1.manager_id is not null
-order by s1.employee_id
 
 
-LeetCode 626. Exchange Seats
----------------------------------------------
-select (case when id=(select count(id) from seat) && id%2=1 then id
-when mod(id,2) then id+1 else id-1 end) as id , student from seat
-order by id asc; 
+
+
+
 
 
 

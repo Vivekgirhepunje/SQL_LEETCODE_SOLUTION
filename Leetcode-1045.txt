@@ -1,0 +1,7 @@
+LeetCode 1045. Customers Who Bought All Products
+---------------------------------------------
+select temp.customer_id from
+(select c.customer_id,count(distinct c.product_key) as cnt
+from customer c
+group by c.customer_id) temp
+where temp.cnt=(select count(*) from product)

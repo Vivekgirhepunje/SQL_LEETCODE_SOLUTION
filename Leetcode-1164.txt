@@ -1,0 +1,15 @@
+LeetCode 1164. Product Price at a Given Date
+---------------------------------------------
+with sub as(
+    select *, dense_rank() over (partition by product_id order by change_date desc) as no
+    from products 
+    where change_date<='2019-08-16'
+),
+ids as (
+    select distinct product_id from products
+)
+-- select * from sub;??
+select ids.product_id,if(sub.product_id,sub.new_price,10) as price
+from ids 
+left join sub 
+on ids.product_id= sub.product_id and no=1;
