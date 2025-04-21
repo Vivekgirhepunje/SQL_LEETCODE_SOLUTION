@@ -1,0 +1,14 @@
+LeetCode 185. Department Top Three Salaries
+---------------------------------------------
+# Write your MySQL query statement below
+with info as(
+    select department.name as Department,employee.name as Employee,salary,department.id 
+    from department 
+    join employee
+    on department.id=employee.departmentId
+)
+,dinfo as(select Department,Employee,salary, dense_rank() over (partition by department order by salary desc) as NO
+from info )
+select Department,Employee,salary
+from dinfo
+where NO<=3
