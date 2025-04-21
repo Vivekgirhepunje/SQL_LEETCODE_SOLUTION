@@ -1,3 +1,3 @@
 # SQL_LEETCODE_SOLUTION
-SQL Leetcode Problems along with their solution 
+SQL Leetcode 50 Challange Problems along with their solution 
  
