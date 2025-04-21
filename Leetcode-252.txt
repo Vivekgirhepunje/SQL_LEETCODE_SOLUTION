@@ -1,0 +1,2 @@
+Leetcode 252
+Hello i have Added solution to proble
