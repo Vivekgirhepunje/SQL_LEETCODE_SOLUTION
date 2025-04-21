@@ -1,0 +1,6 @@
+LeetCode 1193. Monthly Transaction I
+---------------------------------------------
+# Write your MySQL query statement below
+select a.query_name,round(avg(a.rating/a.position),2) as quality,round(avg(a.rating<3)*100,2) as poor_query_percentage
+from queries a
+group by a.query_name

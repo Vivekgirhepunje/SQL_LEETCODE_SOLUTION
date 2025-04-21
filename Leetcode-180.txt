@@ -1,0 +1,3 @@
+LeetCode 180. Consecutive Numbers
+---------------------------------------------
+select distinct num as ConsecutiveNums from (select id,num,lead(num)  over (order by id) as nxt1,lead(num,2) over (order by id) as nxt2 from logs) temp where num=nxt1 && nxt1=nxt2; 

@@ -1,0 +1,9 @@
+LeetCode 570. Managers with at Least 5 Direct Reports
+---------------------------------------------
+# Write your MySQL query statement below
+select a.name 
+from employee a
+join employee b
+on a.id=b.managerid
+group by a.id
+having count(*)>=5;

@@ -1,0 +1,6 @@
+LeetCode 2356. Number of Unique Subjects Taught by Each Teacher
+---------------------------------------------
+# Write your MySQL query statement below
+SELECT t.teacher_id,count(DISTINCT t.subject_id) as cnt
+FROM teacher t 
+GROUP BY t.teacher_id;
